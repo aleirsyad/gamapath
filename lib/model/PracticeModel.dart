@@ -42,7 +42,7 @@ class PracticeItem{
   String name;
   String enrollCode;
 
-  factory PracticeItem.fromJson(Map<String, dynamic> json) => PracticeItem(id: json["id"], teacherId:json["teacher_id"], name: json["name"], enrollCode: json["enrollCode"]);
+  factory PracticeItem.fromJson(Map<String, dynamic> json) => PracticeItem(id: json["id"], teacherId:json["teacher_id"], name: json["name"], enrollCode: json["enroll_code"]);
 
   Map<String, dynamic> toJson() =>{
     "id": id,

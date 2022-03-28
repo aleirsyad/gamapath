@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamapath/repositories/user_repository.dart';
 import 'package:gamapath/styles/theme.dart' as Style;
 import 'package:gamapath/ui/auth/login/login_screen.dart';
+import 'package:gamapath/ui/auth/register/register_screen.dart';
 import 'package:gamapath/ui/home/home_screen.dart';
 import 'package:gamapath/ui/intro/intro_screen.dart';
 import 'bloc/auth/auth.dart';
@@ -71,6 +72,9 @@ class MyApp extends StatelessWidget {
           }
           if(state is AuthenticationUnauthenticated){
             return LoginScreen(userRepository: userRepository);
+          }
+          if(state is AuthenticationNeedRegister){
+            return RegisterScreen(userRepository: userRepository);
           }
           if(state is AuthenticationLoading){
             return Scaffold(

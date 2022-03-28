@@ -36,5 +36,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
       await userRepository.persistToken(event.token);
       yield AuthenticationAuthenticated();
     }
+
+    if (event is Register){
+      yield AuthenticationLoading();
+      yield AuthenticationNeedRegister();
+    }
+
+    if(event is Logout){
+      yield AuthenticationUnauthenticated();
+    }
   }
 }

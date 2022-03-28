@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:gamapath/bloc/auth/auth_bloc.dart';
 import 'package:gamapath/bloc/auth/auth_event.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gamapath/bloc/register/register_event.dart';
 import 'package:gamapath/repositories/user_repository.dart';
 part 'login_event.dart';
 part 'login_state.dart';
@@ -27,6 +28,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
         authenticationBloc.add(LoggedIn(token: token));
         yield LoginInitial();
       } catch (error) {
+        yield LoginFailure(error: error.toString());
+      }
+    }
+    if(event is RegisterButtonPressed){
+      yield LoginLoading();
+      try{
+        authenticationBloc.add(Register());
+      }catch(error){
         yield LoginFailure(error: error.toString());
       }
     }

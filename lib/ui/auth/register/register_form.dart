@@ -23,6 +23,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   bool passwordVisible = false;
   bool cpasswordVisible = false;
+
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
@@ -40,17 +41,43 @@ class _RegisterFormState extends State<RegisterForm> {
   final _prodiController = TextEditingController();
   final _nimController = TextEditingController();
   final _groupController = TextEditingController();
+  String _valProgramStudy = "";
+  String _valRole = "";
+  String _programStudyId ="";
+  List<String> _listProgramStudy = ["Reguler", "Internasional"];
+  List<String> _listRole = ["Dosen", "Mahasiswa", "Umum"];
+  bool _selectedRole = false;
+  bool _selectedProgramStudy = false;
+
+  void _dropDownRoleItemSelected(String valueSelectedByUser) {
+    setState(() {
+      this._valRole = valueSelectedByUser;
+      _selectedRole = true;
+    });
+  }
+
+  void _dropDownProgramStudyItemSelected(String valueSelectedByUser) {
+    setState(() {
+      if(valueSelectedByUser == "Reguler"){
+        this._programStudyId = "1";
+      }else if(valueSelectedByUser == "Internasional"){
+        this._programStudyId= "2";
+      }
+      this._valProgramStudy = valueSelectedByUser;
+      _selectedProgramStudy = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     _onRegisterButtonPressed() {
       BlocProvider.of<RegisterBloc>(context).add(RegisterButtonPressed(
-          role: _roleController.text,
+          role: _valRole,
           name: _nameController.text,
           email: _emailController.text,
           password: _passwordController.text,
           password_c: _passwordcController.text,
-          program_study_id: _prodiController.text,
+          program_study_id: _programStudyId,
           nim: _nimController.text,
           group: _groupController.text));
     }
@@ -73,7 +100,7 @@ class _RegisterFormState extends State<RegisterForm> {
             backgroundColor: Colors.white,
             body: SafeArea(
               child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
+                padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -109,22 +136,34 @@ class _RegisterFormState extends State<RegisterForm> {
                       child: Column(
                         children: [
                           Container(
+                            padding: EdgeInsets.all(8.0),
+                            width: double.infinity,
                             decoration: BoxDecoration(
                               color: Style.Colors.textWhiteGrey,
                               borderRadius: BorderRadius.circular(14.0),
                             ),
-                            child: TextFormField(
-                              controller: _roleController,
-                              decoration: InputDecoration(
-                                hintText: 'Daftar Sebagai',
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ).copyWith(color: Style.Colors.textGrey),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:[
+                                  Text("Daftar Sebagai", style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ).copyWith(color: Style.Colors.textGrey),),
+                                  DropdownButton(
+                                  hint: Text(""),
+                                  // value: _valRole,
+                                  items: _listRole.map((roleItem) {
+                                    return DropdownMenuItem(
+                                      child: Text(roleItem),
+                                      value: roleItem,
+                                    );
+                                  }).toList(),
+                                  onChanged: (valueSelectedByUser) {
+                                    _dropDownRoleItemSelected(valueSelectedByUser.toString());
+                                  },
+                                    value: _selectedRole ? _valRole : null,
                                 ),
-                              ),
+                                ]
                             ),
                           ),
                           SizedBox(
@@ -176,24 +215,35 @@ class _RegisterFormState extends State<RegisterForm> {
                             height: 32,
                           ),
                           Container(
+                            padding: EdgeInsets.all(8.0),
+                            width: double.infinity,
                             decoration: BoxDecoration(
                               color: Style.Colors.textWhiteGrey,
                               borderRadius: BorderRadius.circular(14.0),
                             ),
-                            child: TextFormField(
-                              controller: _prodiController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Program',
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ).copyWith(color: Style.Colors.textGrey),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                            ),
+                            
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:[
+                                  Text("Program Studi", style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ).copyWith(color: Style.Colors.textGrey),),
+                                  DropdownButton(
+                                    hint: Text(""),
+                                    // value: _valProgramStudy,
+                                    items: _listProgramStudy.map((programStudyItem) {
+                                      return DropdownMenuItem(
+                                        child: Text(programStudyItem),
+                                        value: programStudyItem,
+                                      );
+                                    }).toList(),
+                                    onChanged: (valueSelectedByUser){
+                                      _dropDownProgramStudyItemSelected(valueSelectedByUser.toString());
+                                    },
+                                    value: _selectedProgramStudy ? _valProgramStudy : null,
+                                  ),
+                            ])
                           ),
                           SizedBox(
                             height: 32,

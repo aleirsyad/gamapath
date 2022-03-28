@@ -45,6 +45,12 @@ class _LoginFormState extends State<LoginForm> {
       );
     }
 
+    _onRegisterButtonPressed() {
+      BlocProvider.of<LoginBloc>(context).add(
+        RegisterButtonPressed(),
+      );
+    }
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
@@ -257,13 +263,13 @@ class _LoginFormState extends State<LoginForm> {
                               .copyWith(color: Style.Colors.grey),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterScreen(
-                                      userRepository: userRepository,
-                                    )));
+                          onTap: () { _onRegisterButtonPressed();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => RegisterScreen(
+                            //           userRepository: userRepository,
+                            //         )));
                           },
                           child: Text(
                             'SIGN UP',

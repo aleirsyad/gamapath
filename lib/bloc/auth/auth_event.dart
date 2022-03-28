@@ -29,3 +29,23 @@ class Registered extends AuthenticationEvent {
   @override
   String toString() => 'Registered { token: $token }';
 }
+
+class Register extends AuthenticationEvent{
+  const Register();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'Need Register { }';
+}
+
+class Logout extends AuthenticationEvent{
+  const Logout();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'Logged Out {}';
+}

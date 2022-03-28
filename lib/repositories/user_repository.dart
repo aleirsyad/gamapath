@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dio/src/options.dart' as Opt;
@@ -24,6 +25,10 @@ class UserRepository{
 
   Future<void> persistToken(String token) async{
     await storage.write(key: 'token', value: token);
+  }
+
+  Future<void> deleteToken() async{
+    await storage.delete(key: 'token');
   }
 
   Future<String?> login(String email, String password) async{
@@ -65,7 +70,7 @@ class UserRepository{
               return status < 500;
             }));
     // log(response.data.toString());
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       persistToken(response.data['data']['token']);
       return response.data['data']['token'];
     } else {
@@ -75,5 +80,13 @@ class UserRepository{
 
   Future<User> getUser() {
     return _userProvider.fetchUser();
+  }
+
+  Future<String?> saveProfile(String name, String email, File avatar){
+    return _userProvider.saveProfile(name, email, avatar);
+  }
+
+  Future<String?> saveProfileNoPhoto(String name, String email){
+    return _userProvider.saveProfileNoPhoto(name, email);
   }
 }

@@ -14,3 +14,12 @@ class LoginButtonPressed extends LoginEvent{
   String toString () =>
       'LoginButtonPressed { email: $email, password: $password }';
 }
+
+class RegisterButtonPressed extends LoginEvent{
+  const RegisterButtonPressed();
+  @override
+  List<Object> get props => [];
+  @override
+  String toString () =>
+      'RegisterButtonPressed { }';
+}
